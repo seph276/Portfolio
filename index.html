@@ -73,30 +73,46 @@
             <h3>Quiz 1</h3>
             <p class="entry-score">Score: <span class="value">17/20</span></p>
             <p class="entry-date">Date: <span class="value">August 25, 2026</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
           </div>
         </div>
 
         <!-- Quiz 2 -->
         <div class="entry-card">
           <div class="entry-image">
-            <span class="entry-image-placeholder">+ Add photo</span>
+            <img src="pic/quiz2.jpg" alt="Quiz 2 Score">
           </div>
           <div class="entry-body">
             <h3>Quiz 2</h3>
-            <p class="entry-score">Score: <span class="value">—</span></p>
-            <p class="entry-date">Date: <span class="value">—</span></p>
+            <p class="entry-score">Score: <span class="value">20/20</span></p>
+            <p class="entry-date">Date: <span class="value">October 1, 2026</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
           </div>
         </div>
 
         <!-- Quiz 3 -->
         <div class="entry-card">
           <div class="entry-image">
-            <span class="entry-image-placeholder">+ Add photo</span>
+            <img src="pic/quiz3.jpg" alt="Quiz 3 Score">
           </div>
           <div class="entry-body">
             <h3>Quiz 3</h3>
-            <p class="entry-score">Score: <span class="value">—</span></p>
-            <p class="entry-date">Date: <span class="value">—</span></p>
+            <p class="entry-score">Score: <span class="value">20/20</span></p>
+            <p class="entry-date">Date: <span class="value">October 1, 2026</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
+          </div>
+        </div>
+        
+        <!-- Long Quiz-->
+        <div class="entry-card">
+          <div class="entry-image">
+            <img src="pic/longquiz.jpg" alt="Long Quiz Score">
+          </div>
+          <div class="entry-body">
+            <h3>Long Quiz Midterms</h3>
+            <p class="entry-score">Score: <span class="value">44/45</span></p>
+            <p class="entry-date">Date: <span class="value">October 1, 2026</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
           </div>
         </div>
         
@@ -122,6 +138,7 @@
             <h3>Activity 1</h3>
             <p class="entry-score">Score: <span class="value">—</span></p>
             <p class="entry-date">Date: <span class="value">—</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
           </div>
         </div>
 
@@ -134,6 +151,7 @@
             <h3>Activity 2</h3>
             <p class="entry-score">Score: <span class="value">—</span></p>
             <p class="entry-date">Date: <span class="value">—</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
           </div>
         </div>
 
@@ -146,6 +164,7 @@
             <h3>Activity 3</h3>
             <p class="entry-score">Score: <span class="value">—</span></p>
             <p class="entry-date">Date: <span class="value">—</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
           </div>
         </div>
 
@@ -165,12 +184,13 @@
         <!-- Midterm -->
         <div class="entry-card">
           <div class="entry-image">
-            <span class="entry-image-placeholder">+ Add photo</span>
+            <img src="pic/midtermsexam.jpg" alt="Midterms Exam Score">
           </div>
           <div class="entry-body">
             <h3>Midterm Exam</h3>
-            <p class="entry-score">Score: <span class="value">—</span></p>
-            <p class="entry-date">Date: <span class="value">—</span></p>
+            <p class="entry-score">Score: <span class="value">69/70 (59+10 = 69/70)</span></p>
+            <p class="entry-date">Date: <span class="value">October 6, 2026</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
           </div>
         </div>
 
@@ -183,6 +203,7 @@
             <h3>Final Exam</h3>
             <p class="entry-score">Score: <span class="value">—</span></p>
             <p class="entry-date">Date: <span class="value">—</span></p>
+            <button type="button" class="btn btn-outline view-btn">View</button>
           </div>
         </div>
 
@@ -190,6 +211,12 @@
     </section>
 
   </main>
+
+  <!-- Image viewer -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+    <img src="" alt="">
+  </div>
 
   <footer class="site-footer">
     <p>&copy; 2026 Joseph Manuel M. Toledo &mdash; BSCS-3D</p>
@@ -224,6 +251,33 @@
 
     // Set initial state on load (in case of a #hash in the URL)
     setActive((location.hash || '#about').slice(1));
+    // Image viewer
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const closeLightbox = () => {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      const img = btn.closest('.entry-card').querySelector('.entry-image img');
+      if (!img) { btn.disabled = true; return; }
+      btn.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target !== lightboxImg) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
   </script>
 
 </body>
